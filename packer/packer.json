@@ -1,0 +1,30 @@
+{
+  "variables": {
+    "PACKER_BOX_NAME": "ubuntu-14.04.4-server-amd64",
+    "AWS_ACCESS_KEY_ID": "AKIAJEJQDKKJLEMGE7MQ",
+    "AWS_SECRET_ACCESS_KEY": "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"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{ user `AWS_ACCESS_KEY_ID` }}",
+      "secret_key": "{{ user `AWS_SECRET_ACCESS_KEY` }}",
+      "region": "us-east-1",
+      "source_ami": "ami-aa2ea6d0",
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "ami_name": "control-{{ user `PACKER_BOX_NAME` }}-{{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "setup.sh"
+    },
+    {
+      "type": "file",
+      "source": "start_cp.sh",
+      "destination": "/home/cp/start_cp.sh"
+    }
+  ]
+}
