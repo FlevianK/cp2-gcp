@@ -1,19 +1,21 @@
 {
   "variables": {
-    "PACKER_BOX_NAME": "ubuntu-14.04.4-server-amd64",
-    "AWS_ACCESS_KEY_ID": "AKIAJEJQDKKJLEMGE7MQ",
-    "AWS_SECRET_ACCESS_KEY": "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"
+    "service_account_json": "service-account.json"
   },
   "builders": [
     {
-      "type": "amazon-ebs",
-      "access_key": "{{ user `AWS_ACCESS_KEY_ID` }}",
-      "secret_key": "{{ user `AWS_SECRET_ACCESS_KEY` }}",
-      "region": "us-east-1",
-      "source_ami": "ami-aa2ea6d0",
-      "instance_type": "t2.micro",
-      "ssh_username": "ubuntu",
-      "ami_name": "control-{{ user `PACKER_BOX_NAME` }}-{{timestamp}}"
+      "type": "googlecompute",
+      "disk_size": 10,
+      "image_name": "flevian-cp-image-javascript-{{timestamp}}",
+      "image_description": "cp image for a javascript application with the github repo code included",
+      "project_id": "cp2-document-management-system",
+      "source_image": "ubuntu-1604-xenial-v20170815a",
+      "region": "europe-west1",
+      "zone": "europe-west1-b",
+      "image_family": "ubuntu-1604-lts",
+      "ssh_username": "cp",
+      "account_file": "{{user `service_account_json`}}",
+      "machine_type": "n1-standard-1"
     }
   ],
   "provisioners": [
