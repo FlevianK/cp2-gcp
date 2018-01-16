@@ -1,0 +1,8 @@
+.DS_Store
+packer/.DS_Store
+terraform/.DS_Store
+packer/service-account.json
+terraform/.terraform/
+terraform/variables.tf
+terraform/terraform.tfstate.backup
+terraform/service_account.json
